@@ -182,7 +182,7 @@ pub struct Font {
     name: Option<String>,
     units_per_em: f32,
     glyphs: Vec<Glyph>,
-    char_to_glyph: HashMap<u32, NonZeroU16>,
+    char_to_glyph: HashMap<u32, u16>,
     horizontal_line_metrics: Option<LineMetrics>,
     vertical_line_metrics: Option<LineMetrics>,
     settings: FontSettings,
@@ -259,7 +259,7 @@ impl Font {
                 };
                 // Zero is a valid value for missing glyphs, so even if a mapping is zero, the
                 // result is desireable.
-                char_to_glyph.insert(codepoint, unsafe { NonZeroU16::new_unchecked(mapping) });
+                char_to_glyph.insert(codepoint, mapping);
             });
         }
 
@@ -271,7 +271,7 @@ impl Font {
         let glyph_count = face.number_of_glyphs() as usize;
         let mut glyphs: Vec<Glyph> = vec::from_elem(Glyph::default(), glyph_count);
         for (_, mapping) in &char_to_glyph {
-            let mapping = unsafe { mem::transmute::<NonZeroU16, u16>(*mapping) as usize };
+            let mapping = *mapping as usize;
             if mapping as usize >= glyph_count {
                 return Err("Attempted to map a codepoint out of bounds.");
             }
@@ -529,9 +529,6 @@ impl Font {
     /// the font then 0 is returned.
     #[inline]
     pub fn lookup_glyph_index(&self, character: char) -> usize {
-        unsafe {
-            mem::transmute::<Option<NonZeroU16>, u16>(self.char_to_glyph.get(&(character as u32)).copied())
-                as usize
-        }
+        self.char_to_glyph.get(&(character as u32)).copied().unwrap_or(0) as usize
     }
 }
