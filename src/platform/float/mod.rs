@@ -15,8 +15,6 @@ pub use ceil::*;
 pub use floor::*;
 pub use fract::*;
 pub use get_bitmap::*;
-pub use sqrt::*;
-pub use trunc::*;
 
 use core::mem::transmute;
 

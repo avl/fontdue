@@ -7,8 +7,6 @@ use crate::FontResult;
 use alloc::string::String;
 use alloc::vec;
 use alloc::vec::*;
-use core::mem;
-use core::num::NonZeroU16;
 use core::ops::Deref;
 use hashbrown::HashMap;
 use ttf_parser::{Face, FaceParsingError, PlatformId};
