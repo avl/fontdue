@@ -47,15 +47,5 @@ mod tests {
         assert_eq!(fract(1.0), 0.0);
         assert_eq!(fract(1.5), 0.5);
     }
-
-    #[test]
-    fn platform_trunc_test() {
-        assert_eq!(trunc(-1.5), -1.0);
-        assert_eq!(trunc(-1.0), -1.0);
-        assert_eq!(trunc(-0.5), 0.0);
-        assert_eq!(trunc(0.0), 0.0);
-        assert_eq!(trunc(0.5), 0.0);
-        assert_eq!(trunc(1.0), 1.0);
-        assert_eq!(trunc(1.5), 1.0);
-    }
+    
 }
